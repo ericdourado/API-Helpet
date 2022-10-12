@@ -11,10 +11,10 @@
     "paths": {
         "/": {
             "get": {
-                "description": "teste",
+                "description": "Home page",
                 "responses": {
                     "default": {
-                        "description": "teste"
+                        "description": "Welcome page"
                     }
                 }
             }
