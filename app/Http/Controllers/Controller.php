@@ -7,19 +7,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 /**
- * @OA\Info(
- *      version="1.0.0",
- *      title="L5 OpenApi",
- *      description="L5 Swagger OpenApi description",
- *      @OA\Contact(
- *          email="darius@matulionis.lt"
- *      ) 
- * )
- * 
+ * @OA\Info(title="Helpet", version="0.1"),
  * @OA\Get(
- *     path="/",
- *     description="Home page",
- *     @OA\Response(response="default", description="Welcome page")
+ *     path="/api/resource.json",
+ *     @OA\Response(response="200", description="An example resource")
  * )
  */
 class Controller extends BaseController
