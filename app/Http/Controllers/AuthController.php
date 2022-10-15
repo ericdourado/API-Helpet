@@ -6,18 +6,7 @@ use App\Models\User;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 
-/**
- * @OA\SecurityScheme(
- *     type="http",
- *     scheme="bearer",
- *     description="Authentication Bearer Token",
- *     securityScheme="bearerAuth",
- *     name="Authentication Bearer Token",
- *     in="header",
- *     bearerFormat="JWT",
- *     securityScheme="apiAuth"
- * )
- */
+
 class AuthController extends Controller
 {
     public function __construct(User $user)
@@ -60,7 +49,7 @@ class AuthController extends Controller
 
     /**
      * * @OA\Get(
-     *     path="/api/testeJWTlogin",
+     *     path="/api/login",
      *     tags={"login"},
      *     summary="testando, apenas",
      *     security={{"bearerAuth": {}}},

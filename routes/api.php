@@ -22,7 +22,7 @@ Route::post('login', 'App\Http\Controllers\AuthController@login');
 
 Route::middleware('jwt.auth')->group(function(){
     //AQUI SÕ AS ROTAS PROTEGIDAS
-    Route::get('testeJWTlogin', 'App\Http\Controllers\AuthController@index');
+    Route::get('login', 'App\Http\Controllers\AuthController@index');
 });
 
 

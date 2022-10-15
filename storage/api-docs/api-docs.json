@@ -6,6 +6,24 @@
     },
     "paths": {
         "/api/login": {
+            "get": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "testando, apenas",
+                "description": "testando, apenas",
+                "operationId": "db77d4fc512885cd39fc2247fb682315",
+                "responses": {
+                    "default": {
+                        "description": "Welcome page"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "login"
@@ -42,36 +60,13 @@
                     }
                 ]
             }
-        },
-        "/api/testeJWTlogin": {
-            "get": {
-                "tags": [
-                    "login"
-                ],
-                "summary": "Recupera usuários cadastrados",
-                "description": "testando, apenas",
-                "operationId": "4d0d63988e3f66f38a27a0abcc6232ff",
-                "responses": {
-                    "default": {
-                        "description": "Welcome page"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
         }
     },
     "components": {
         "securitySchemes": {
-            "apiAuth": {
+            "bearerAuth": {
                 "type": "http",
                 "description": "Authentication Bearer Token",
-                "name": "Authentication Bearer Token",
-                "in": "header",
-                "bearerFormat": "JWT",
                 "scheme": "bearer"
             }
         }
