@@ -43,13 +43,24 @@
                 ]
             }
         },
-        "/api/resource.json": {
+        "/api/testeJWTlogin": {
             "get": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Recupera usuários cadastrados",
+                "description": "testando, apenas",
+                "operationId": "4d0d63988e3f66f38a27a0abcc6232ff",
                 "responses": {
-                    "200": {
-                        "description": "An example resource"
+                    "default": {
+                        "description": "Welcome page"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },

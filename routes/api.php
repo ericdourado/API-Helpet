@@ -20,10 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', 'App\Http\Controllers\AuthController@login');
 // Route::get('login', 'App\Http\Controllers\AuthController@index');
 
-// Route::middleware('jwt.auth')->group(function(){
-//     //AQUI SÕ AS ROTAS PROTEGIDAS
-//     // Route::get('login', 'App\Http\Controllers\AuthController@index');
-// });
+Route::middleware('jwt.auth')->group(function(){
+    //AQUI SÕ AS ROTAS PROTEGIDAS
+    Route::get('testeJWTlogin', 'App\Http\Controllers\AuthController@index');
+});
 
 
 

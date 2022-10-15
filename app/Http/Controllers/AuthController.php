@@ -60,19 +60,19 @@ class AuthController extends Controller
 
     /**
      * * @OA\Get(
-     *     path="/api/login",
+     *     path="/api/testeJWTlogin",
      *     tags={"login"},
-     *     summary="Recupera usuários cadastrados",
+     *     summary="testando, apenas",
      *     security={{"bearerAuth": {}}},
-     *     description="Recupera todos os usuarios cadastrados e seus dados",
+     *     description="testando, apenas",
      *     @OA\Response(response="default", description="Welcome page")
      *
      * )
      *
      */
-    // public function index()
-    // {
-    //     $usersRepository = new UsersRepository($this->user);
-    //     return response()->json($usersRepository->getResultado(), 200);
-    // }
+    public function index()
+    {
+        $usersRepository = new UsersRepository($this->user);
+        return response()->json($usersRepository->getResultado(), 200);
+    }
 }
