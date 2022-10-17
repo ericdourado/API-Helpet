@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -24,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -63,5 +65,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function Usuario()
+    {
+        return $this->belongsTo('App\Models\Usuario');
     }
 }

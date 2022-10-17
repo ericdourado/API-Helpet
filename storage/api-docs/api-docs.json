@@ -6,24 +6,6 @@
     },
     "paths": {
         "/api/login": {
-            "get": {
-                "tags": [
-                    "login"
-                ],
-                "summary": "testando, apenas",
-                "description": "testando, apenas",
-                "operationId": "db77d4fc512885cd39fc2247fb682315",
-                "responses": {
-                    "default": {
-                        "description": "Welcome page"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
                     "login"
@@ -52,6 +34,222 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario": {
+            "get": {
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Recupera usuários",
+                "description": "Recupera usuários, apenas",
+                "operationId": "5f08371670ce270a0e6577fae9539512",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "cadastra usuário",
+                "description": "cadastra usuário",
+                "operationId": "d5e32171c128f56efd1872d1ec23f2c8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "cpf": {
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "type": "string"
+                                    },
+                                    "endereco": {
+                                        "type": "string"
+                                    },
+                                    "dt_nascimento": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "sexo": {
+                                        "type": "string"
+                                    },
+                                    "ativo": {
+                                        "type": "boolean"
+                                    },
+                                    "perfil_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario/{id}": {
+            "get": {
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Recupera usuários",
+                "description": "Recupera usuários",
+                "operationId": "findusuarioById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Atualiza dados de usuário",
+                "description": "Atualiza dados de usuário",
+                "operationId": "updateUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "cpf": {
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "type": "string"
+                                    },
+                                    "endereco": {
+                                        "type": "string"
+                                    },
+                                    "dt_nascimento": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "sexo": {
+                                        "type": "string"
+                                    },
+                                    "ativo": {
+                                        "type": "boolean"
+                                    },
+                                    "perfil_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "usuarios"
+                ],
+                "description": "Deleta Usuário por Id",
+                "operationId": "deleteUsuarioById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "usuario deletado"
                     }
                 },
                 "security": [

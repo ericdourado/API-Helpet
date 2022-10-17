@@ -47,21 +47,17 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * * @OA\Get(
-     *     path="/api/login",
-     *     tags={"login"},
-     *     summary="testando, apenas",
-     *     security={{"bearerAuth": {}}},
-     *     description="testando, apenas",
-     *     @OA\Response(response="default", description="Welcome page")
-     *
-     * )
-     *
-     */
-    public function index()
-    {
-        $usersRepository = new UsersRepository($this->user);
-        return response()->json($usersRepository->getResultado(), 200);
-    }
+    // /**
+    //  * * @OA\Get(
+    //  *     path="/api/login",
+    //  *     tags={"login"},
+    //  *     summary="testando, apenas",
+    //  *     security={{"bearerAuth": {}}},
+    //  *     description="testando, apenas",
+    //  *     @OA\Response(response="default", description="Welcome page")
+    //  *
+    //  * )
+    //  *
+    //  */
+
 }

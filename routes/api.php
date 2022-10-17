@@ -21,9 +21,11 @@ Route::post('login', 'App\Http\Controllers\AuthController@login');
 // Route::get('login', 'App\Http\Controllers\AuthController@index');
 
 Route::middleware('jwt.auth')->group(function(){
-    //AQUI SÕ AS ROTAS PROTEGIDAS
-    Route::get('login', 'App\Http\Controllers\AuthController@index');
+    // Route::apiresource('usuario', 'App\Http\Controllers\UsuarioController');
+    Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
+    
 });
+
 
 
 
