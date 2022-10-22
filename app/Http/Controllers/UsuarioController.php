@@ -57,12 +57,13 @@ class UsuarioController extends Controller
      *              @OA\Property(property="email", type="string"),
      *              @OA\Property(property="password", type="string"),
      *              @OA\Property(property="name", type="string"),
-     *              @OA\Property(property="cpf", type="string"),
+     *              @OA\Property(property="cpfcnpj", type="string"),
      *              @OA\Property(property="telefone", type="string"),
      *              @OA\Property(property="endereco", type="string"),
      *              @OA\Property(property="dt_nascimento", type="date"),
-     *              @OA\Property(property="sexo", type="string"),
-     *              @OA\Property(property="ativo", type="boolean"),
+     *              @OA\Property(property="cidade", type="string"),
+     *              @OA\Property(property="bairro", type="string"),
+     *              @OA\Property(property="numero", type="int"),
      *              @OA\Property(property="perfil_id", type="int"),
      * )
      * ),
@@ -77,30 +78,30 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $this->user->create([
+        $user = $this->user->create([
             'name' => $request->name,
             'password' => bcrypt($request->password),
             'email' => $request->email,
+            'ativo' => 1
         ]);
-        $ultimoDadoBanco = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = $ultimoDadoBanco->id;
-        $this->usuario->create([
-            'nome' => $request->name,
-            'cpf' => $request->cpf,
+
+        $usuario = $this->usuario->create([
+            'cpfcnpj' => $request->cpfcnpj,
             'telefone' => $request->telefone,
             'endereco' => $request->endereco,
             'dt_nascimento' => $request->dt_nascimento,
-            'sexo' => $request->sexo,
-            'user_id' => $id,
-            'ativo' => 1,
+            'user_id' => $user->id,
+            'cidade' => $request->cidade,
+            'bairro' => $request->bairro,
+            'numero' => $request->numero,
+            
         ]);
-        $ultimoDadoBanco = DB::table('usuarios')->orderBy('created_at', 'desc')->first();
-        $id = $ultimoDadoBanco->id;
+
         $this->perfilUsuario->create([
-            'usuario_id' => $id,
+            'usuario_id' => $usuario->id,
             'perfil_id' => $request->perfil_id
         ]);
-        return response()->json($this->usuario->with('user')->find($id), 201);
+        return response()->json($this->usuario->with('user')->find($usuario->id), 201);
     }
 
     /**
@@ -167,13 +168,13 @@ class UsuarioController extends Controller
      *              @OA\Property(property="email", type="string"),
      *              @OA\Property(property="password", type="string"),
      *              @OA\Property(property="name", type="string"),
-     *              @OA\Property(property="nome", type="string"),
-     *              @OA\Property(property="cpf", type="string"),
+     *              @OA\Property(property="cpfcnpj", type="string"),
      *              @OA\Property(property="telefone", type="string"),
      *              @OA\Property(property="endereco", type="string"),
      *              @OA\Property(property="dt_nascimento", type="date"),
-     *              @OA\Property(property="sexo", type="string"),
-     *              @OA\Property(property="ativo", type="boolean"),
+     *              @OA\Property(property="cidade", type="string"),
+     *              @OA\Property(property="bairro", type="string"),
+     *              @OA\Property(property="numero", type="int"),
      *              @OA\Property(property="perfil_id", type="int"),
      *          )
      * ),
@@ -191,7 +192,7 @@ class UsuarioController extends Controller
     {
         $usuario = $this->usuario->with('user')->find($id);
         $user = $this->user->find($usuario->user_id);
-        if ($usuario === null) {
+        if ($user === null) {
             return response()->json(["error" => "Impossivel realizar alteração, pois recurso não existe"], 404);
         } 
         // colocar rules aqui
@@ -199,44 +200,8 @@ class UsuarioController extends Controller
         $usuario->fill($request->all());
         $user->save();
         $usuario->save();
-        
         return response()->json(["sucess"=>"Dados alterados com sucesso"], 200);
     }
 
-   /**
-     * @OA\Delete(
-     *     path="/api/usuario/{id}",
-     *     description="Deleta Usuário por Id",
-     *     operationId="deleteUsuarioById",
-     *     security={{"bearerAuth": {}}},
-     *     tags={"usuarios"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(
-     *             format="int64",
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="usuario deletado"
-     *     ),
-     * )
-     * 
-     * @param  \App\Models\Usuario  $usuario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(int $id)
-    {
-        $usuario = $this->usuario->find($id);
-        if ($usuario === null) {
-            return response()->json(["error" => "Impossivel realizar exclusão, pois recurso não existe"], 404);
-        }
-        $usuario->ativo = 0;
-        $usuario->save();
-        // $this->usuario::where('id', $id)->update(['ativo' => 0]);
-        return response()->json(["msg" => "O usuário foi desativado"], 201);
-    }
+   
 }

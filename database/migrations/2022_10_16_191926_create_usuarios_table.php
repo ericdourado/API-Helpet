@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',50);
-            $table->string('cpf',50);
+            $table->string('cpfcnpj',14);
             $table->string('telefone',50);
             $table->string('endereco',50);
+            $table->string('cidade',50);
+            $table->string('bairro',50);
+            $table->integer('numero');
             $table->dateTime('dt_nascimento');
-            $table->string('sexo', 10);
             $table->unsignedBigInteger('user_id');
-            $table->boolean('Ativo');
+            $table->tinyint('ativo');
             $table->timestamps();
         });
     }

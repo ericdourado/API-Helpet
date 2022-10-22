@@ -9,14 +9,14 @@ class Usuario extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nome',
-        'cpf',
+        'cpfcnpj',
         'telefone',
         'endereco',
         'dt_nascimento',
-        'sexo',
         'user_id',
-        'ativo'
+        'cidade',
+        'bairro',
+        'numero'
     ];
 
     public function rules(): array
