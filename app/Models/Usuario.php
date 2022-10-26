@@ -13,7 +13,7 @@ class Usuario extends Model
         'telefone',
         'endereco',
         'dt_nascimento',
-        'user_id',
+        'Tipo',
         'cidade',
         'bairro',
         'numero'
@@ -31,8 +31,8 @@ class Usuario extends Model
             'endereco' => 'required|',
             'dt_nascimento' => 'required|',
             'sexo' => 'required|',
-            'user_id' => 'required|',
-            'Ativo' => 'required|'
+            'user_id' => 'required|'
+      
         ];
     }
 

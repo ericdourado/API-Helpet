@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
+    
     /**
      * @OA\Post(
      *     path="/api/login",
@@ -39,7 +35,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $token = auth('api')->attempt($request->all(['email', 'password']));
-        $result = DB::select('select ativo from usuarios where email = :email and ativo = 1', ['email'=>$request->email]);
+        $result = DB::select('select ativo from users where email = :email and ativo = 1', ['email'=>$request->email]);
         // return response()->json([$result]);
         if ($token) 
         {
@@ -56,40 +52,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * @OA\Delete(
-     *     path="/api/login/{id}",
-     *     description="Desativa Usuário por Id",
-     *     operationId="InativaUsuarioById",
-     *     security={{"bearerAuth": {}}},
-     *     tags={"login"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(
-     *             format="int64",
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="usuario deletado"
-     *     ),
-     * )
-     * 
-     * 
-     */
-    public function destroy(int $id)
-    {
-        $user = $this->user->find($id);
-        if ($user === null) {
-            return response()->json(["error" => "Impossivel realizar exclusão, pois recurso não existe"], 404);
-        }
-        $user->ativo = 0;
-        $user->save();
-
-        return response()->json(["msg" => "O usuário foi desativado"], 201);
-    }
+    
 
 }

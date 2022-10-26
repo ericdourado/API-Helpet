@@ -9,4 +9,9 @@ class Perfil extends Model
 {
     use HasFactory;
     protected $table = 'Perfil';
+
+    public function User()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

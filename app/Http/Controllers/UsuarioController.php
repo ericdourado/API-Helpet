@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    public function __construct(Usuario $usuario, PerfilUsuario $perfilUsuario, User $user)
+    public function __construct(Usuario $usuario, User $user)
     {
         $this->usuario = $usuario;
-        $this->perfilUsuario = $perfilUsuario;
         $this->user = $user;
     }
 
@@ -37,9 +36,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarioRepository = new UsuarioRepository($this->usuario);
-        $usuarioRepository->selectAtributosRegistrosRelacionados('user'); 
-        return response()->json($usuarioRepository->getResultado(), 201);
+        $usuario = $this->user->with('usuario')->with('perfil');
+        return response()->json($usuario->get(), 201);
     }
 
 
@@ -64,7 +62,9 @@ class UsuarioController extends Controller
      *              @OA\Property(property="cidade", type="string"),
      *              @OA\Property(property="bairro", type="string"),
      *              @OA\Property(property="numero", type="int"),
-     *              @OA\Property(property="perfil_id", type="int"),
+     *              @OA\Property(property="Tipo", type="int"),
+     *              @OA\Property(property="perfil_id", type="int")
+     *              
      * )
      * ),
      *     @OA\Response(
@@ -78,30 +78,27 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $this->user->create([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'ativo' => 1
-        ]);
-
         $usuario = $this->usuario->create([
             'cpfcnpj' => $request->cpfcnpj,
             'telefone' => $request->telefone,
             'endereco' => $request->endereco,
             'dt_nascimento' => $request->dt_nascimento,
-            'user_id' => $user->id,
+            'Tipo' => 1,
             'cidade' => $request->cidade,
             'bairro' => $request->bairro,
             'numero' => $request->numero,
             
         ]);
 
-        $this->perfilUsuario->create([
+        $user = $this->user->create([
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'email' => $request->email,
+            'ativo' => 1,
             'usuario_id' => $usuario->id,
             'perfil_id' => $request->perfil_id
         ]);
-        return response()->json($this->usuario->with('user')->find($usuario->id), 201);
+        return response()->json($this->user->with('usuario')->with('perfil')->find($user->id), 201);
     }
 
     /**
@@ -136,11 +133,11 @@ class UsuarioController extends Controller
      */
     public function show(int $id)
     {
-        $usuario = $this->usuario->with('user')->find($id);
-        if ($usuario === null) {
+        $user = $this->user->with('usuario')->with('perfil')->find($id);
+        if ($user === null) {
             return response()->json(["error" => "Recurso pesquisado nao existe"], 404);
         }
-        return response()->json($usuario, 200);
+        return response()->json($user, 200);
     }
 
 
@@ -165,9 +162,11 @@ class UsuarioController extends Controller
      *          required=true,
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="email", type="string"),
-     *              @OA\Property(property="password", type="string"),
-     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property (property="usuario",type="array",
+     *              @OA\Items(
+     *              
+     *              
+     *              
      *              @OA\Property(property="cpfcnpj", type="string"),
      *              @OA\Property(property="telefone", type="string"),
      *              @OA\Property(property="endereco", type="string"),
@@ -175,9 +174,24 @@ class UsuarioController extends Controller
      *              @OA\Property(property="cidade", type="string"),
      *              @OA\Property(property="bairro", type="string"),
      *              @OA\Property(property="numero", type="int"),
-     *              @OA\Property(property="perfil_id", type="int"),
+     *              @OA\Property(property="Tipo", type="int"),
+     *              
+     *              ),
+     *          ),
+     *              @OA\Property (property="login",type="array", 
+     *              @OA\Items(
+     *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="email", type="string"),
+     *                  @OA\Property(property="password", type="string"),
+     *                  @OA\Property(property="perfil_id", type="int"),
+     *                  @OA\Property(property="ativo", type="boolean"),
+     *                  
+     *              ),
+     *              ),
+     *              
      *          )
      * ),
+     *     
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
@@ -190,18 +204,56 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $usuario = $this->usuario->with('user')->find($id);
-        $user = $this->user->find($usuario->user_id);
+        $user = $this->user->find($id);
+        $usuarioId = DB::table('users')->where('id', $id)->first()->id;
+        $usuario = $this->usuario->find($usuarioId);
+
         if ($user === null) {
             return response()->json(["error" => "Impossivel realizar alteração, pois recurso não existe"], 404);
         } 
         // colocar rules aqui
-        $user->fill($request->all());
-        $usuario->fill($request->all());
+        $user->fill($request->login[0]);
+        $usuario->fill($request->usuario[0]);
         $user->save();
         $usuario->save();
-        return response()->json(["sucess"=>"Dados alterados com sucesso"], 200);
+
+        return response()->json(["sucess" => "Usuário alterado com sucesso"], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/usuario/{id}",
+     *     description="Desativa Usuário por Id",
+     *     operationId="InativaUsuarioById",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"usuarios"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *             format="int64",
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="usuario deletado"
+     *     ),
+     * )
+     * 
+     * 
+     */
+    public function destroy(int $id)
+    {
+        $user = $this->user->with('usuario')->with('perfil')->find($id);
+        if ($user === null) {
+            return response()->json(["error" => "Impossivel realizar exclusão, pois recurso não existe"], 404);
+        }
+        $user->ativo = 0;
+        $user->save();
+
+        return response()->json(["msg" => "O usuário foi desativado"], 201);
+    }
    
 }

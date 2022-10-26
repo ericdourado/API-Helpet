@@ -22,6 +22,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->tinyInteger('ativo');
+            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('perfil_id');
         });
     }
 

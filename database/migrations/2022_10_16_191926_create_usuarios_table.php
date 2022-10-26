@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('cpfcnpj',14);
-            $table->string('telefone',50);
-            $table->string('endereco',50);
-            $table->string('cidade',50);
-            $table->string('bairro',50);
-            $table->integer('numero');
-            $table->dateTime('dt_nascimento');
-            $table->unsignedBigInteger('user_id');
-            $table->tinyint('ativo');
+            $table->string('cpfcnpj',14)->nullable();
+            $table->string('telefone',50)->nullable();
+            $table->string('endereco',50)->nullable();
+            $table->string('cidade',50)->nullable();
+            $table->string('bairro',50)->nullable();
+            $table->integer('numero')->nullable();
+            $table->dateTime('dt_nascimento')->nullable();
+            $table->integer('Tipo')->nullable();
+            $table->boolean('ativo');
             $table->timestamps();
         });
     }

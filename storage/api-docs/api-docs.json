@@ -43,36 +43,6 @@
                 ]
             }
         },
-        "/api/login/{id}": {
-            "delete": {
-                "tags": [
-                    "login"
-                ],
-                "description": "Desativa Usuário por Id",
-                "operationId": "InativaUsuarioById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "usuario deletado"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/usuario": {
             "get": {
                 "tags": [
@@ -134,6 +104,9 @@
                                         "type": "string"
                                     },
                                     "numero": {
+                                        "type": "integer"
+                                    },
+                                    "Tipo": {
                                         "type": "integer"
                                     },
                                     "perfil_id": {
@@ -212,39 +185,61 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {
-                                        "type": "string"
+                                    "usuario": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "cpfcnpj": {
+                                                    "type": "string"
+                                                },
+                                                "telefone": {
+                                                    "type": "string"
+                                                },
+                                                "endereco": {
+                                                    "type": "string"
+                                                },
+                                                "dt_nascimento": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "cidade": {
+                                                    "type": "string"
+                                                },
+                                                "bairro": {
+                                                    "type": "string"
+                                                },
+                                                "numero": {
+                                                    "type": "integer"
+                                                },
+                                                "Tipo": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "cpfcnpj": {
-                                        "type": "string"
-                                    },
-                                    "telefone": {
-                                        "type": "string"
-                                    },
-                                    "endereco": {
-                                        "type": "string"
-                                    },
-                                    "dt_nascimento": {
-                                        "type": "string",
-                                        "format": "date"
-                                    },
-                                    "cidade": {
-                                        "type": "string"
-                                    },
-                                    "bairro": {
-                                        "type": "string"
-                                    },
-                                    "numero": {
-                                        "type": "integer"
-                                    },
-                                    "perfil_id": {
-                                        "type": "integer"
+                                    "login": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "password": {
+                                                    "type": "string"
+                                                },
+                                                "perfil_id": {
+                                                    "type": "integer"
+                                                },
+                                                "ativo": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -255,6 +250,34 @@
                 "responses": {
                     "202": {
                         "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "usuarios"
+                ],
+                "description": "Desativa Usuário por Id",
+                "operationId": "InativaUsuarioById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "usuario deletado"
                     }
                 },
                 "security": [

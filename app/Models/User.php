@@ -24,7 +24,10 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'ativo' 
+        'ativo',
+        'usuario_id',
+        'perfil_id'
+
     ];
 
 
@@ -71,5 +74,10 @@ class User extends Authenticatable implements JWTSubject
     public function Usuario()
     {
         return $this->belongsTo('App\Models\Usuario');
+    }
+
+    public function Perfil()
+    {
+        return $this->belongsTo('App\Models\Perfil');
     }
 }
