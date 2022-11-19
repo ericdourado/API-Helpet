@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('numero')->nullable();
             $table->dateTime('dt_nascimento')->nullable();
             $table->integer('Tipo')->nullable();
-            $table->boolean('ativo');
             $table->timestamps();
         });
     }
