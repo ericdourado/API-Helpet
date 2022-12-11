@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Perfil extends Model
 {
     use HasFactory;
-    protected $table = 'Perfil';
+    protected $table = 'perfil';
 
     public function User()
     {

@@ -24,7 +24,6 @@ class UsuarioSeeder extends Seeder
         $usuario->numero = 27;
         $usuario->dt_nascimento = '2002-05-20';
         $usuario->tipo = 1;
-        $usuario->ativo = 1;
         $usuario->save();
     }
 }
