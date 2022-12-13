@@ -22,9 +22,10 @@ Route::post('login', 'App\Http\Controllers\AuthController@login');
 // Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
 
 Route::apiResource('adocao', 'App\Http\Controllers\AdocaoController');
+Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
 
 Route::middleware('jwt.auth')->group(function(){
-    Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
+    // Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
 });
 
 
