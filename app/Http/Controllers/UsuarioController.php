@@ -107,7 +107,13 @@ class UsuarioController extends Controller
                 'perfil_id' => $request->perfil_id
             ]);
         } catch (Exception $e) {
+            $verifica_email = DB::table('users')->where('email', $request->email)->first()->email; 
+            if(($verifica_email != null)  or ($verifica_email != '') )
+            {
+                return response()->json('Email ja está cadastrado', 201);
+            }
             return response()->json('Não foi possivel realizar esta operação', 201);
+
         }
         return response()->json($this->user->with('usuario')->with('perfil')->find($user->id), 201);
     }
