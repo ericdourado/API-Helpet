@@ -34,10 +34,15 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $usuario = $this->user->with('usuario')->with('perfil');
-        return response()->json($usuario->get(), 201);
+        $user = $this->user;
+        if($request->has('email')) {
+            $user = $user->where('email',$request->email);
+        }
+        
+        // $user = $this->user->with('usuario')->with('perfil');
+        return response()->json($user->with('usuario')->with('perfil')->get(), 201);
     }
 
 
