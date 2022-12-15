@@ -85,6 +85,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        
         try {
             $usuario = $this->usuario->create([
                 'cpfcnpj' => $request->cpfcnpj,
@@ -110,7 +111,7 @@ class UsuarioController extends Controller
             $verifica_email = DB::table('users')->where('email', $request->email)->first()->email; 
             if(($verifica_email != null)  or ($verifica_email != '') )
             {
-                return response()->json('Email ja está cadastrado', 201);
+                return response()->json(["Retorno" => 'email cadastrado ja existe'] , 201);
             }
             return response()->json('Não foi possivel realizar esta operação', 201);
 
