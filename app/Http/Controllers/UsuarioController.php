@@ -6,6 +6,7 @@ use App\Models\PerfilUsuario;
 use App\Models\User;
 use App\Models\Usuario;
 use App\Repositories\UsuarioRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,8 +26,8 @@ class UsuarioController extends Controller
      *     security={{"bearerAuth": {}}},
      *     description="Recupera usuários, apenas",
      *     @OA\Response(
- *         response=200,
- *         description="OK")
+     *         response=200,
+     *         description="OK")
      *
      * )
      *
@@ -37,10 +38,10 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $user = $this->user;
-        if($request->has('email')) {
-            $user = $user->where('email',$request->email);
+        if ($request->has('email')) {
+            $user = $user->where('email', $request->email);
         }
-        
+
         // $user = $this->user->with('usuario')->with('perfil');
         return response()->json($user->with('usuario')->with('perfil')->get(), 201);
     }
@@ -83,28 +84,30 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        
+        try {
+            $usuario = $this->usuario->create([
+                'cpfcnpj' => $request->cpfcnpj,
+                'telefone' => $request->telefone,
+                'endereco' => $request->endereco,
+                'dt_nascimento' => $request->dt_nascimento,
+                'Tipo' => 1,
+                'cidade' => $request->cidade,
+                'bairro' => $request->bairro,
+                'numero' => $request->numero,
 
-        $usuario = $this->usuario->create([
-            'cpfcnpj' => $request->cpfcnpj,
-            'telefone' => $request->telefone,
-            'endereco' => $request->endereco,
-            'dt_nascimento' => $request->dt_nascimento,
-            'Tipo' => 1,
-            'cidade' => $request->cidade,
-            'bairro' => $request->bairro,
-            'numero' => $request->numero,
+            ]);
 
-        ]);
-
-        $user = $this->user->create([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'ativo' => 1,
-            'usuario_id' => $usuario->id,
-            'perfil_id' => $request->perfil_id
-        ]);
+            $user = $this->user->create([
+                'name' => $request->name,
+                'password' => bcrypt($request->password),
+                'email' => $request->email,
+                'ativo' => 1,
+                'usuario_id' => $usuario->id,
+                'perfil_id' => $request->perfil_id
+            ]);
+        } catch (Exception $e) {
+            return response()->json('Não foi possivel realizar esta operação', 201);
+        }
         return response()->json($this->user->with('usuario')->with('perfil')->find($user->id), 201);
     }
 
@@ -129,9 +132,9 @@ class UsuarioController extends Controller
      *     ),
      * 
      *     @OA\Response(
- *         response=200,
- *         description="OK",
- *     ),
+     *         response=200,
+     *         description="OK",
+     *     ),
      *
      * )
      * @param  \App\Models\Usuario  $usuario
@@ -217,7 +220,7 @@ class UsuarioController extends Controller
 
         if ($user === null) {
             return response()->json(["error" => "Impossivel realizar alteração, pois recurso não existe"], 404);
-        } 
+        }
         // colocar rules aqui
         $user->fill($request->login[0]);
         $usuario->fill($request->usuario[0]);
@@ -262,5 +265,4 @@ class UsuarioController extends Controller
 
         return response()->json(["msg" => "O usuário foi desativado"], 201);
     }
-   
 }
