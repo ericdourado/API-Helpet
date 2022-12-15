@@ -24,6 +24,7 @@ class UsuarioController extends Controller
      *     summary="Recupera usuários",
      *     security={{"bearerAuth": {}}},
      *     description="Recupera usuários, apenas",
+
      *     @OA\Response(
  *         response=200,
  *         description="OK")
