@@ -100,6 +100,12 @@
                                     "cidade": {
                                         "type": "string"
                                     },
+                                    "cep": {
+                                        "type": "string"
+                                    },
+                                    "estado": {
+                                        "type": "string"
+                                    },
                                     "bairro": {
                                         "type": "string"
                                     },
@@ -213,6 +219,12 @@
                                                 },
                                                 "Tipo": {
                                                     "type": "integer"
+                                                },
+                                                "cep": {
+                                                    "type": "string"
+                                                },
+                                                "estado": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"

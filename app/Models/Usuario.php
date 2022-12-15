@@ -16,7 +16,9 @@ class Usuario extends Model
         'Tipo',
         'cidade',
         'bairro',
-        'numero'
+        'numero',
+        'cep',
+        'estado'
     ];
 
     public function rules(): array

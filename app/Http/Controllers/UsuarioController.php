@@ -67,6 +67,8 @@ class UsuarioController extends Controller
      *              @OA\Property(property="endereco", type="string"),
      *              @OA\Property(property="dt_nascimento", type="date"),
      *              @OA\Property(property="cidade", type="string"),
+     *              @OA\Property(property="cep", type="string"),
+     *              @OA\Property(property="estado", type="string"),
      *              @OA\Property(property="bairro", type="string"),
      *              @OA\Property(property="numero", type="int"),
      *              @OA\Property(property="Tipo", type="int"),
@@ -96,6 +98,8 @@ class UsuarioController extends Controller
                 'cidade' => $request->cidade,
                 'bairro' => $request->bairro,
                 'numero' => $request->numero,
+                'cep' => $request->cep,
+                'estado'=>$request->estado
 
             ]);
 
@@ -193,6 +197,8 @@ class UsuarioController extends Controller
      *              @OA\Property(property="bairro", type="string"),
      *              @OA\Property(property="numero", type="int"),
      *              @OA\Property(property="Tipo", type="int"),
+     *              @OA\Property(property="cep", type="string"),
+     *              @OA\Property(property="estado", type="string"),
      *              
      *              ),
      *          ),
