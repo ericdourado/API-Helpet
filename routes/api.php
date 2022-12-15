@@ -21,10 +21,14 @@ Route::post('login', 'App\Http\Controllers\AuthController@login');
 // Route::get('login', 'App\Http\Controllers\AuthController@index');
 // Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
 
-Route::apiResource('adocao', 'App\Http\Controllers\AdocaoController');
+Route::post('usuario', 'App\Http\Controllers\UsuarioController@store');
 
 Route::middleware('jwt.auth')->group(function(){
-    Route::apiResource('usuario', 'App\Http\Controllers\UsuarioController');
+    Route::get('usuario', 'App\Http\Controllers\UsuarioController@index');
+    Route::get('usuario/{id}', 'App\Http\Controllers\UsuarioController@show');
+    Route::put('usuario/{id}', 'App\Http\Controllers\UsuarioController@update');
+    Route::delete('usuario/{id}', 'App\Http\Controllers\UsuarioController@delete');
+    Route::apiResource('adocao', 'App\Http\Controllers\AdocaoController');
 });
 
 

@@ -29,6 +29,14 @@ class User extends Authenticatable implements JWTSubject
         'perfil_id'
 
     ];
+    
+    public function rules(): array
+    {
+        return [
+            'name' => "required",
+            'email' => "required|email|unique:users|",
+        ];
+    }
 
 
     /**

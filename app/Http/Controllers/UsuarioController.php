@@ -78,6 +78,8 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->user->rules());
+
         $usuario = $this->usuario->create([
             'cpfcnpj' => $request->cpfcnpj,
             'telefone' => $request->telefone,
